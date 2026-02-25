@@ -1,0 +1,32 @@
+## Python / Flask
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.swp
+*.tmp
+
+## Virtual environments
+.venv/
+venv/
+env/
+
+## OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+## Cursor / IDE metadata
+.cursor/
+
+## Environment files and secrets
+.env
+.env.*
+*.env
+
+## Uploaded files (generated at runtime)
+static/images/uploads/
+
+## Logs
+*.log
