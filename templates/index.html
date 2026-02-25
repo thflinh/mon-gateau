@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Gâteau</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <img src="/static/images/logo/logo-remove.png" id="logoImg" class="logo-img" alt="Mon Gâteau logo">
+        <h1 id="logo">Mon Gâteau</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for a cake...">
+            <div class="difficulty-dropdown" id="difficultyDropdown">
+                <button type="button" class="difficulty-trigger arrow-caret" id="difficultyTrigger" aria-haspopup="listbox" aria-expanded="false">All levels</button>
+                <div class="difficulty-panel hidden" id="difficultyPanel" role="listbox">
+                    <div class="difficulty-option" data-value="">All levels</div>
+                    <div class="difficulty-option" data-value="Easy">Easy</div>
+                    <div class="difficulty-option" data-value="Medium">Medium</div>
+                    <div class="difficulty-option" data-value="Hard">Hard</div>
+                </div>
+                <input type="hidden" id="difficultyFilter" value="">
+            </div>
+            <button id="savedBtn" class="saved-btn">♥ Saved</button>
+            <button id="newCakeBtn" class="saved-btn">+ Add Cake</button>
+        </div>
+    </header>
+
+    <div id="noticeBar" class="notice hidden"></div>
+
+    <main id="cardGrid" class="card-grid">
+        <!-- Cards injected by JS -->
+    </main>
+
+    <!-- Modal popup for cake details -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img id="modalImage" src="" alt="">
+            <h2 id="modalName"></h2>
+            <p id="modalDesc"></p>
+            <h3>Ingredients:</h3>
+            <ul id="modalIngredients"></ul>
+            <h3>Steps:</h3>
+            <ol id="modalSteps"></ol>
+            <div class="modal-actions">
+                <button id="editCakeBtn" class="saved-btn">Edit</button>
+                <button id="deleteCakeBtn" class="saved-btn danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete confirmation modal (custom styled, centered) -->
+    <div id="confirmDeleteModal" class="modal hidden">
+        <div class="modal-content confirm-modal">
+            <p class="confirm-message">Delete this cake? This cannot be undone.</p>
+            <div class="confirm-actions">
+                <button type="button" id="confirmDeleteOk" class="confirm-btn confirm-ok">OK</button>
+                <button type="button" id="confirmDeleteCancel" class="confirm-btn confirm-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal to add a new cake -->
+    <div id="newCakeModal" class="modal hidden">
+        <div class="modal-content add-modal">
+            <span class="close-btn new-cake-close">&times;</span>
+            <h2>Add a new cake</h2>
+            <input id="newName" placeholder="Cake name">
+            <label class="add-modal-label">Image: upload from device or leave blank</label>
+            <input type="file" id="newImageFile" accept="image/*" class="add-modal-file">
+            <input id="newImage" placeholder="Or paste image URL (optional)" class="optional-url">
+            <input id="newCategory" placeholder="Category (e.g. Chocolate, Fruit)">
+            <select id="newDifficulty">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+            </select>
+            <input id="newPrep" placeholder="Prep time (e.g. 20 min)">
+            <input id="newBake" placeholder="Bake time (e.g. 35 min)">
+            <input id="newServings" type="number" min="1" placeholder="Servings">
+            <textarea id="newDescription" placeholder="Short description"></textarea>
+            <textarea id="newIngredients" placeholder="Ingredients (one per line)"></textarea>
+            <textarea id="newSteps" placeholder="Steps (one per line)"></textarea>
+            <button id="saveNewCakeBtn" class="saved-btn">Save Cake</button>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
