@@ -1,5 +1,8 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
+from dotenv import load_dotenv
+
+load_dotenv()
 from bson.objectid import ObjectId
 import os
 import uuid
@@ -69,7 +72,9 @@ def to_json(doc):
     return doc
 
 
-MONGO_URI = os.environ.get("MONGO_URI", "mongodb+srv://ptlinhuni_db_user:%40Linhxinh03@cake-db.jouzhcp.mongodb.net/?appName=cake-db")
+MONGO_URI = os.environ.get("MONGO_URI")
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI environment variable is not set. Add it to .env or your shell.")
 client = MongoClient(MONGO_URI)
 db = client["cakedb"]
 cakesCollection = db["cakes"]

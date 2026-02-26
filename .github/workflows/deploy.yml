@@ -2,22 +2,27 @@
 name: Deploy to EC2
 
 on:
-  branches: [main]
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branch: main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           command_timeout: 60s
           script: |
             cd ~/mon-gateau
             git pull --rebase
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
             pip install -r requirements.txt
             pkill -f 'python3 app.py' || true
             nohup python3 app.py > log.txt &

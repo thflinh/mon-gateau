@@ -1,8 +1,12 @@
 from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
 import sys
 
-MONGO_URI = "mongodb+srv://ptlinhuni_db_user:%40Linhxinh03@cake-db.jouzhcp.mongodb.net/?appName=cake-db"
-
+load_dotenv()
+MONGO_URI = os.environ.get("MONGO_URI")
+if not MONGO_URI:
+    sys.exit("MONGO_URI environment variable is not set. Add it to .env or your shell, then run seed.py.")
 client = MongoClient(MONGO_URI)
 db = client["cakedb"]
 collection = db["cakes"]
