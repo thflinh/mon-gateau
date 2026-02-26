@@ -43,5 +43,8 @@ Mon Gâteau is a small Flask web app for browsing and managing cake recipes. It 
 
 - `EC2_HOST`: EC2 public IP or hostname
 - `EC2_SSH_KEY`: Private SSH key used to connect as `ec2-user` (entire PEM content, including `-----BEGIN` / `-----END`)
+- `EC2_HOST_KEY`: EC2 host key so the runner can connect without "host key verification failed". On your machine run:  
+  `ssh-keyscan -H YOUR_EC2_IP`  
+  and paste the full output (one or more lines) into this secret.
 
-Ensure the EC2 instance has `~/mon-gateau` cloned and can run `git pull --rebase` (e.g. deploy key or credentials configured).
+Ensure the EC2 instance has `~/mon-gateau` cloned and can run `git pull --rebase` (e.g. deploy key or credentials configured). The EC2 security group must allow SSH (port 22) from the internet (or from [GitHub’s IP ranges](https://api.github.com/meta) if you restrict it).

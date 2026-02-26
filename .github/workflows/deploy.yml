@@ -18,6 +18,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
+          # Required for first-time connection from GitHub's runner (no known_hosts)
+          host_key: ${{ secrets.EC2_HOST_KEY }}
+          command_timeout: 60s
           script: |
             cd ~/mon-gateau
             git pull --rebase
