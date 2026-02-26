@@ -31,3 +31,17 @@ Mon Gâteau is a small Flask web app for browsing and managing cake recipes. It 
 1. **Install dependencies**
 
    pip install -r requirements.txt
+
+2. **Run locally**: `python app.py` (or `nohup python3 app.py > log.txt &` on a server)
+
+### CI/CD (GitHub Actions)
+
+- **CI** (on every push/PR): installs deps, runs `pytest tests/`.
+- **Deploy** (after CI passes on `main`): SSHs to EC2, runs `git pull --rebase`, restarts the app with `nohup python3 app.py > log.txt &`.
+
+**Required GitHub secrets** (Settings → Secrets and variables → Actions):
+
+- `EC2_HOST`: EC2 public IP or hostname
+- `EC2_SSH_KEY`: Private SSH key used to connect as `ec2-user` (entire PEM content, including `-----BEGIN` / `-----END`)
+
+Ensure the EC2 instance has `~/mon-gateau` cloned and can run `git pull --rebase` (e.g. deploy key or credentials configured).
