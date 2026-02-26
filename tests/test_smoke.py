@@ -1,4 +1,9 @@
 """Smoke tests for Mon Gâteau Flask app. Uses mocked MongoDB for CI."""
+import os
+
+# CI has no .env; app requires MONGO_URI. Set a dummy (MongoClient is mocked).
+os.environ.setdefault("MONGO_URI", "mongodb://localhost")
+
 from unittest.mock import MagicMock, patch
 
 
