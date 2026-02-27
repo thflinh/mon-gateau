@@ -12,17 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'success'
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          command_timeout: 120s
-          script: |
-            cd ~/mon-gateau || { echo "mon-gateau not found. Clone repo first: git clone https://github.com/${{ github.repository }}.git ~/mon-gateau"; exit 1; }
-            git pull --rebase
-            echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
-            pip3 install -r requirements.txt --user
-            pkill -f 'python3 app.py' || true
-            nohup python3 app.py > log.txt &
+      - name: Deploy to EC2
+  uses: appleboy/ssh-action@v1.0.3
+  with:
+    host: ${{ secrets.EC2_HOST }}
+    username: ec2-user
+    key: ${{ secrets.EC2_KEY }}
+    port: 22
+    command_timeout: 120s
+    script: |
+      set -euo pipefail
+      cd ~/mon-gateau || { echo "mon-gateau not found. Clone first."; exit 1; }
+      git pull --rebase
+      echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
+      pip3 install -r requirements.txt --user
+      # stop old app (if any)
+      pkill -f "python3 app.py" || true
+      # start new app and DETACH from SSH session
+      nohup python3 app.py > log.txt 2>&1 < /dev/null & disown
+      # quick local health check
+      sleep 1
+      curl -fsS http://127.0.0.1:8080/ >/dev/null
+      echo "Deploy OK"
