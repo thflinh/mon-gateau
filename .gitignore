@@ -25,6 +25,9 @@ Thumbs.db
 .env.*
 *.env
 
+## SSH keys (never commit)
+*.pem
+
 ## Uploaded files (generated at runtime)
 static/images/uploads/
 

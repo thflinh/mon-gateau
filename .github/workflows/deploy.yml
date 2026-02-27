@@ -16,13 +16,13 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
+          username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          command_timeout: 60s
+          command_timeout: 120s
           script: |
-            cd ~/mon-gateau
+            cd ~/mon-gateau || { echo "mon-gateau not found. Clone repo first: git clone https://github.com/${{ github.repository }}.git ~/mon-gateau"; exit 1; }
             git pull --rebase
             echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
-            pip install -r requirements.txt
+            pip3 install -r requirements.txt --user
             pkill -f 'python3 app.py' || true
             nohup python3 app.py > log.txt &

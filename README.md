@@ -50,4 +50,4 @@ Mon Gâteau is a small Flask web app for browsing and managing cake recipes. It 
 - `EC2_SSH_KEY`: Private SSH key used to connect as `ec2-user` (entire PEM content, including `-----BEGIN` / `-----END`)
 - `MONGO_URI`: MongoDB connection string (used by deploy to write `.env` on EC2)
 
-Ensure the EC2 instance has `~/mon-gateau` cloned and can run `git pull --rebase` (e.g. deploy key or credentials configured). The EC2 security group must allow SSH (port 22) from the internet (or from GitHub’s IP ranges if you restrict it).
+**EC2 one-time setup** (run via SSH before deploy can work): (1) `sudo yum install -y git python3-pip` (2) `git clone https://github.com/thflinh/mon-gateau.git ~/mon-gateau`. Ensure the EC2 instance has `~/mon-gateau` cloned and can run `git pull --rebase` (e.g. deploy key or credentials configured). The EC2 security group must allow SSH (port 22) from the internet (or from GitHub’s IP ranges if you restrict it).
